@@ -400,7 +400,7 @@ class TextEditorState extends State<TextEditor>
 
       return GestureDetector(
         behavior: HitTestBehavior.translucent,
-        onTap: done,
+       // onTap: done,
         child: Stack(
           children: [
             if (textEditorConfigs.widgets.bodyItems != null)

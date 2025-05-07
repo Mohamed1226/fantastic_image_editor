@@ -154,16 +154,16 @@ class TextEditorInput extends StatelessWidget {
           color: configs.style.inputHintColor,
           fontSize: textFontSize,
           height: 1.35,
-          shadows: [],
+          // shadows: [],
         ),
         backgroundColor: backgroundColor,
         style: selectedTextStyle.copyWith(
           color: textColor,
           fontSize: textFontSize,
-          height: 1.35,
-          letterSpacing: 0,
+        //  height: 1.35,
+         // letterSpacing: 0,
           decoration: TextDecoration.none,
-          shadows: [],
+          // shadows: [],
         ),
 
         /// If we edit an layer we focus to the textfield after the
