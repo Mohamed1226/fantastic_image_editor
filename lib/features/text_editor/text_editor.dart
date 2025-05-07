@@ -205,7 +205,7 @@ class TextEditorState extends State<TextEditor>
   }
 
   /// Toggles the text alignment between left, center, and right.
-  void toggleTextAlign() {
+  void toggleTextAlign({TextAlign? selectedTextAlign}) {
     TextAlign nextTextAlign(TextAlign currentAlign) {
       switch (currentAlign) {
         case TextAlign.left:
@@ -218,7 +218,7 @@ class TextEditorState extends State<TextEditor>
       }
     }
 
-    align = nextTextAlign(align);
+    align = selectedTextAlign ?? nextTextAlign(align);
     textEditorCallbacks?.handleTextAlignChanged(align);
     setState(() {});
   }
