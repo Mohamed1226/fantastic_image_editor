@@ -195,7 +195,8 @@ class _LayerWidgetState extends State<LayerWidget>
 
   /// Handles a tap event on the layer.
   void _onTap() {
-    if (_isOutsideHitBox()) return;
+    print("fdsgdgfd");
+    //if (_isOutsideHitBox()) return;
     widget.onTap?.call(_layer);
   }
 
@@ -313,7 +314,7 @@ class _LayerWidgetState extends State<LayerWidget>
                 onSecondaryTapUp: isDesktop ? _onSecondaryTapUp : null,
                 onTap:
                     (interaction.enableSelection || interaction.enableEdit) &&
-                            !_isOutsideHitBox()
+                            !_isOutsideHitBox() && _layerType != LayerWidgetType.text
                         ? _onTap
                         : null,
                 child: Listener(
@@ -353,6 +354,7 @@ class _LayerWidgetState extends State<LayerWidget>
 
   /// Builds the content widget based on the type of layer being displayed.
   Widget _buildContent() {
+    var interaction = widget.layerData.interaction;
     switch (_layerType) {
       case LayerWidgetType.emoji:
         return LayerWidgetEmojiItem(
@@ -365,6 +367,11 @@ class _LayerWidgetState extends State<LayerWidget>
         return LayerWidgetTextItem(
           layer: _layer as TextLayer,
           textEditorConfigs: textEditorConfigs,
+          onEdit: (interaction.enableSelection || interaction.enableEdit)
+
+              ? () => _onTap()
+              : (){},
+          onRemove:widget.onRemoveTap ?? (){},
           showMoveCursor: _showMoveCursor,
           onHitChanged: (state) {
             _lastHitState.value = state;

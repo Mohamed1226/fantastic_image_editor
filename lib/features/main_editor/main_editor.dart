@@ -42,6 +42,7 @@ import 'services/main_editor_state_history_service.dart';
 import 'services/sizes_manager.dart';
 import 'services/state_manager.dart';
 import 'widgets/main_editor_interactive_content.dart';
+final ValueNotifier<bool> showEditors = ValueNotifier<bool>(true);
 
 /// A widget for image editing using ProImageEditor.
 ///
@@ -1816,6 +1817,7 @@ class ProImageEditorState extends State<ProImageEditor>
   /// Before returning the edited image, a loading dialog is displayed to
   /// indicate that the operation is in progress.
   void doneEditing() async {
+    showEditors.value = false;
     if (_isProcessingFinalImage) return;
     if (!stateManager.canUndo && activeLayers.isEmpty) {
       if (!imageGenerationConfigs.allowEmptyEditingCompletion) {
@@ -1901,6 +1903,7 @@ class ProImageEditorState extends State<ProImageEditor>
       /// Allow users to continue editing if they didn't close the editor.
       setState(() => _isProcessingFinalImage = false);
     });
+    showEditors.value = true;
   }
 
   /// Captures the final editor image.

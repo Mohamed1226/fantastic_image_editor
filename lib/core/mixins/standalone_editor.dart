@@ -6,6 +6,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:pro_image_editor/features/main_editor/main_editor.dart';
 
 import '/core/mixins/converted_callbacks.dart';
 import '/core/models/complete_parameters.dart';
@@ -147,6 +148,7 @@ mixin StandaloneEditorState<T extends StatefulWidget,
     required List<List<double>> colorFilters,
     required TransformConfigs? transform,
   }) async {
+    showEditors.value = false;
     if (isGenerationActive) return;
 
     if (initConfigs.convertToUint8List) {
@@ -240,6 +242,7 @@ mixin StandaloneEditorState<T extends StatefulWidget,
         onCloseWithValue.call();
       }
     }
+    showEditors.value = true;
   }
 
   /// Closes the editor without applying changes.
