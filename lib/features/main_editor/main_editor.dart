@@ -1903,7 +1903,6 @@ class ProImageEditorState extends State<ProImageEditor>
       /// Allow users to continue editing if they didn't close the editor.
       setState(() => _isProcessingFinalImage = false);
     });
-    showEditors.value = true;
   }
 
   /// Captures the final editor image.

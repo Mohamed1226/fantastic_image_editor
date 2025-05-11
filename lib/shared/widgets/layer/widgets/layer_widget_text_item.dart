@@ -59,7 +59,7 @@ class LayerWidgetTextItem extends StatelessWidget {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       //  borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.red, width: 1),
+                      border:value ? Border.all(color: Colors.red, width: 1) : null,
                     ),
                     child: RoundedBackgroundText(
                       onHitTestResult: (hasHit) {

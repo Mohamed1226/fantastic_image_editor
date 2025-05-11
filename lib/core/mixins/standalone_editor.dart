@@ -148,7 +148,6 @@ mixin StandaloneEditorState<T extends StatefulWidget,
     required List<List<double>> colorFilters,
     required TransformConfigs? transform,
   }) async {
-    showEditors.value = false;
     if (isGenerationActive) return;
 
     if (initConfigs.convertToUint8List) {
@@ -242,7 +241,6 @@ mixin StandaloneEditorState<T extends StatefulWidget,
         onCloseWithValue.call();
       }
     }
-    showEditors.value = true;
   }
 
   /// Closes the editor without applying changes.
