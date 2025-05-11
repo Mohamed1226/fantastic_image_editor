@@ -61,6 +61,7 @@ flutter:
         pluginClass: ProImageEditorPlugin
   assets:
     - lib/web/web_worker.dart.js
+    - assets/
     - lib/web/web_worker.dart.js.map
   shaders:
     - lib/shared/shaders/pixelate.frag
