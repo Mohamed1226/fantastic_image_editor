@@ -50,6 +50,7 @@ class MainEditorRemoveLayerArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Container();
     return mainEditorConfigs.widgets.removeLayerArea?.call(
           removeAreaKey,
           state,
