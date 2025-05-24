@@ -2285,7 +2285,7 @@ class ProImageEditorState extends State<ProImageEditor>
                       setState(() {});
                     }
                     widget.videoController?.togglePlayState();
-                    mainEditorCallbacks?.onTap?.call();
+                    mainEditorCallbacks?.onTap?.call(this);
                   },
                   onLongPress: mainEditorCallbacks?.onLongPress,
                   onScaleStart: _onScaleStart,

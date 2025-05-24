@@ -1,5 +1,6 @@
 // Flutter imports:
 import 'package:flutter/widgets.dart';
+import 'package:pro_image_editor/features/main_editor/main_editor.dart';
 
 import '../../../enums/sub_editors_name.dart';
 import '../../layers/layer.dart';
@@ -83,7 +84,7 @@ class MainEditorCallbacks extends StandaloneEditorCallbacks {
   final Function(SubEditor)? onStartCloseSubEditor;
 
   /// A callback function that is triggered when the user `tap` on the body.
-  final Function()? onTap;
+  final Function(ProImageEditorState editor)? onTap;
 
   /// A callback function that is triggered when the user `doubleTap`
   /// on the body.
@@ -314,7 +315,7 @@ class MainEditorCallbacks extends StandaloneEditorCallbacks {
     Function(SubEditor)? onOpenSubEditor,
     Function(SubEditor)? onEndCloseSubEditor,
     Function(SubEditor)? onStartCloseSubEditor,
-    Function()? onTap,
+    Function(ProImageEditorState editor)? onTap,
     Function()? onDoubleTap,
     Function()? onLongPress,
     Function()? onEscapeButton,
