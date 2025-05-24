@@ -2352,6 +2352,65 @@ class ProImageEditorState extends State<ProImageEditor>
           );
   }
 
+  //
+  // bool _isTapOnImage(Offset tapPosition) {
+  //   if (_isTapOnLayers(tapPosition)) {
+  //     return false;
+  //   }
+  //   return _isTapOnWidget(imageKey, tapPosition);
+  // }
+  //
+  // bool _isTapOnLayers(Offset tapPosition) {
+  //   // Check if tap is on any active layer
+  //   final RenderBox? renderBox = _layersKey.currentContext?.findRenderObject() as RenderBox?;
+  //   if (renderBox == null) return false;
+  //
+  //   final layersPosition = renderBox.localToGlobal(Offset.zero);
+  //   final layersSize = renderBox.size;
+  //   final layersRect = Rect.fromLTWH(
+  //     layersPosition.dx,
+  //     layersPosition.dy,
+  //     layersSize.width,
+  //     layersSize.height,
+  //   );
+  //
+  //   final RenderBox? bodyRenderBox = context.findRenderObject() as RenderBox?;
+  //   if (bodyRenderBox == null) return false;
+  //
+  //   final globalTapPosition = bodyRenderBox.localToGlobal(tapPosition);
+  //
+  //   // If tap is in layers area, check if there's actually a visible layer there
+  //   if (layersRect.contains(globalTapPosition)) {
+  //     // You might want to add more specific logic here to check
+  //     // if there's actually a visible layer at this position
+  //     return activeLayers.isNotEmpty && selectedLayerIndex >= 0;
+  //   }
+  //
+  //   return false;
+  // }
+  //
+  // bool _isTapOnWidget(GlobalKey key, Offset tapPosition) {
+  //   final RenderBox? renderBox = key.currentContext?.findRenderObject() as RenderBox?;
+  //   if (renderBox == null) return false;
+  //
+  //   final widgetPosition = renderBox.localToGlobal(Offset.zero);
+  //   final widgetSize = renderBox.size;
+  //   final widgetRect = Rect.fromLTWH(
+  //     widgetPosition.dx,
+  //     widgetPosition.dy,
+  //     widgetSize.width,
+  //     widgetSize.height,
+  //   );
+  //
+  //   final RenderBox? bodyRenderBox = context.findRenderObject() as RenderBox?;
+  //   if (bodyRenderBox == null) return false;
+  //
+  //   final globalTapPosition = bodyRenderBox.localToGlobal(tapPosition);
+  //
+  //   return widgetRect.contains(globalTapPosition);
+  // }
+  //
+
   Widget _buildLayers() {
     return MainEditorLayers(
       controllers: _controllers,
