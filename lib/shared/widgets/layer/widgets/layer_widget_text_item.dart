@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:pro_image_editor/features/main_editor/main_editor.dart';
 
@@ -6,7 +8,7 @@ import '/core/models/layers/text_layer.dart';
 import '/plugins/rounded_background_text/src/rounded_background_text.dart';
 
 /// A widget representing a text layer in the sticker editor.
-class LayerWidgetTextItem extends StatelessWidget {
+class LayerWidgetTextItem extends StatefulWidget {
   /// Creates a [LayerWidgetTextItem] with the given text layer and editor
   /// configurations.
   const LayerWidgetTextItem({
@@ -17,6 +19,7 @@ class LayerWidgetTextItem extends StatelessWidget {
     required this.onHitChanged,
     required this.onEdit,
     required this.onRemove,
+    required this.transform,
   });
 
   /// The text layer represented by this widget.
@@ -35,13 +38,19 @@ class LayerWidgetTextItem extends StatelessWidget {
   final Function(bool hasHit) onHitChanged;
   final Function onEdit;
   final Function onRemove;
+  final Function transform;
 
   @override
+  State<LayerWidgetTextItem> createState() => _LayerWidgetTextItemState();
+}
+
+class _LayerWidgetTextItemState extends State<LayerWidgetTextItem> {
+  @override
   Widget build(BuildContext context) {
-    var fontSize = textEditorConfigs.initFontSize * layer.scale;
+    var fontSize = widget.textEditorConfigs.initFontSize * widget.layer.scale;
     var style = TextStyle(
-      fontSize: fontSize * layer.fontScale,
-      color: layer.color,
+      fontSize: fontSize * widget.layer.fontScale,
+      color: widget.layer.color,
       overflow: TextOverflow.ellipsis,
     );
 
@@ -54,7 +63,7 @@ class LayerWidgetTextItem extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 InkWell(
-                 onTap: (){onEdit();},
+                 onTap: (){widget.onEdit();},
                   child: CustomPaint(
                     painter: value ?_DashedBorderPainter() : null,
                     child: Padding(
@@ -62,18 +71,18 @@ class LayerWidgetTextItem extends StatelessWidget {
                       child: RoundedBackgroundText(
                         onHitTestResult: (hasHit) {
                           // Update hit detection and cursor visibility state.
-                          if (layer.hit != hasHit ||
-                              showMoveCursor.value != hasHit) {
-                            layer.hit = hasHit;
-                            showMoveCursor.value = hasHit;
+                          if (widget.layer.hit != hasHit ||
+                              widget.showMoveCursor.value != hasHit) {
+                            widget.layer.hit = hasHit;
+                            widget.showMoveCursor.value = hasHit;
                           }
-                          layer.hit = hasHit;
-                          onHitChanged(hasHit);
+                          widget.layer.hit = hasHit;
+                          widget.onHitChanged(hasHit);
                         },
-                        layer.text.toString(),
-                        backgroundColor: layer.background,
-                        textAlign: layer.align,
-                        style: layer.textStyle?.copyWith(
+                        widget.layer.text.toString(),
+                        backgroundColor: widget.layer.background,
+                        textAlign: widget.layer.align,
+                        style: widget.layer.textStyle?.copyWith(
                               fontSize: style.fontSize,
                               fontWeight: style.fontWeight,
                               color: style.color,
@@ -84,38 +93,80 @@ class LayerWidgetTextItem extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Edit icon at top-left corner
-                // if (value)
-                //   Positioned(
-                //     top: -10,
-                //     left: -10,
-                //     child: InkWell(
-                //       onTap: (){
-                //         onEdit();
-                //       },
-                //       child: Container(
-                //           decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                //           child: const Icon(Icons.edit, color: Colors.green)),
-                //     ),
-                //   ),
-                // Delete icon at top-right corner
+
                 if (value)
                   Positioned(
                     top: -10,
                     left: -10,
                     child: InkWell(
                       child:  Container(
-                        padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                        padding: const EdgeInsets.all(5),
+                          decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
                           child: Image.asset("assets/images/remove.png",width: 20,height: 20,)),
-                      onTap: () => onRemove(),
+                      onTap: () => widget.onRemove(),
                     ),
                   ),
+                if (value)
+                  Positioned(
+                    bottom: -10,
+                    left: -10,
+                    child: GestureDetector(
+                      child:  Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                          child: Image.asset("assets/images/rotate.png",width: 20,height: 20,)),
+                      onPanStart: (details) {
+                        _initialLocalPosition = details.localPosition;
+                        _initialRotation = widget.layer.rotation;
+                      },
+                      onPanUpdate: (details) {
+                        if (_initialLocalPosition == null) return;
+
+                        const Offset center = Offset(0, 0); // Icon is at center of drag
+                        final Offset currentPosition = details.localPosition;
+
+                        double angle1 = atan2(_initialLocalPosition!.dy - center.dy, _initialLocalPosition!.dx - center.dx);
+                        double angle2 = atan2(currentPosition.dy - center.dy, currentPosition.dx - center.dx);
+
+                        double angleDelta = angle2 - angle1;
+
+                        widget.layer.rotation = _initialRotation + angleDelta;
+                        widget.transform(); // Rebuild
+                      },
+                      onPanEnd: (_) {
+                        _initialLocalPosition = null;
+                      },
+                    ),
+                  ),
+                if (value)
+                Positioned(
+                  bottom: -10,
+                  right: -10,
+                  child: GestureDetector(
+                    onPanUpdate: (details) {
+                      widget.layer.scale += details.delta.dx * 0.01;
+                      widget.layer.scale = widget.layer.scale.clamp(0.1, 5.0);
+                      widget.transform(); // Trigger parent rebuild
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white,
+                      ),
+                        child: Image.asset("assets/images/resize.png",width: 20,height: 20,)),
+                  ),
+                ),
+
               ],
             ),
           );
         });
   }
+
+  Offset? _initialLocalPosition;
+
+  double _initialRotation = 0.0;
 }
 
 
@@ -141,7 +192,7 @@ class _DashedBorderPainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     // Top side
-    _drawDashedLine(canvas, Offset(0, 0), Offset(size.width, 0), paint);
+    _drawDashedLine(canvas, const Offset(0, 0), Offset(size.width, 0), paint);
     // Right side
     _drawDashedLine(canvas, Offset(size.width, 0), Offset(size.width, size.height),
         paint);

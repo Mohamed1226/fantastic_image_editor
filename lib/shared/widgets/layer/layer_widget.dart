@@ -372,7 +372,9 @@ class _LayerWidgetState extends State<LayerWidget>
               ? () => _onTap()
               : (){},
           onRemove:widget.onRemoveTap ?? (){},
-          showMoveCursor: _showMoveCursor,
+          showMoveCursor: _showMoveCursor,transform: (){setState(() {
+
+          });},
           onHitChanged: (state) {
             _lastHitState.value = state;
           },
