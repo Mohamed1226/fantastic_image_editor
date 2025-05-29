@@ -92,10 +92,22 @@ class TextEditorState extends State<TextEditor>
   /// Gets the primary color.
   Color get primaryColor => _primaryColor;
 
+  /// Gets the primary color.
+  Color  _backgroundColor = Colors.transparent;
+
+  /// Gets the bg color.
+  Color get backgroundColor =>  _backgroundColor;
   /// Sets the primary color.
   set primaryColor(Color color) {
     setState(() {
       _primaryColor = color;
+      textEditorCallbacks?.handleColorChanged(color.toHex());
+    });
+  }
+
+  set backgroundColorColor(Color color) {
+    setState(() {
+      _backgroundColor = color;
       textEditorCallbacks?.handleColorChanged(color.toHex());
     });
   }
@@ -185,19 +197,19 @@ class TextEditorState extends State<TextEditor>
     }
   }
 
-  /// Gets the background color based on the selected color mode.
-  Color get _backgroundColor {
-    switch (backgroundColorMode) {
-      case LayerBackgroundMode.onlyColor:
-        return Colors.transparent;
-      case LayerBackgroundMode.backgroundAndColor:
-        return secondaryColor;
-      case LayerBackgroundMode.background:
-        return primaryColor;
-      default:
-        return secondaryColor.withValues(alpha: 0.5);
-    }
-  }
+  // /// Gets the background color based on the selected color mode.
+  // Color get _backgroundColor {
+  //   switch (backgroundColorMode) {
+  //     case LayerBackgroundMode.onlyColor:
+  //       return Colors.transparent;
+  //     case LayerBackgroundMode.backgroundAndColor:
+  //       return secondaryColor;
+  //     case LayerBackgroundMode.background:
+  //       return primaryColor;
+  //     default:
+  //       return secondaryColor.withValues(alpha: 0.5);
+  //   }
+  // }
 
   /// Gets the text font size based on the selected font scale.
   double get _textFontSize {
