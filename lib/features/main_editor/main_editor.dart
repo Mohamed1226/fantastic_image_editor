@@ -1953,15 +1953,11 @@ class ProImageEditorState extends State<ProImageEditor>
   /// any changes or edits.
   /// It navigates back to the previous screen or closes the modal editor.
   void closeEditor() {
-    if (!stateManager.canUndo) {
       if (onCloseEditor == null) {
         Navigator.pop(context);
       } else {
         onCloseEditor!.call(EditorMode.main);
       }
-    } else {
-      closeWarning();
-    }
   }
 
   /// Displays a warning dialog before closing the image editor.
