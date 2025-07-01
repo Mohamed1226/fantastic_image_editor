@@ -1962,58 +1962,59 @@ class ProImageEditorState extends State<ProImageEditor>
 
   /// Displays a warning dialog before closing the image editor.
   void closeWarning() async {
-    if (isPopScopeDisabled) {
-      Navigator.pop(context);
-      return;
-    }
-    _isDialogOpen = true;
-
-    bool close = false;
-
-    if (!mounted) return;
-
-    if (mainEditorConfigs.widgets.closeWarningDialog != null) {
-      close = await mainEditorConfigs.widgets.closeWarningDialog!(this);
-    } else {
-      await showAdaptiveDialog(
-        context: context,
-        builder: (BuildContext context) => Theme(
-          data: _theme,
-          child: AdaptiveDialog(
-            designMode: designMode,
-            brightness: _theme.brightness,
-            style: configs.dialogConfigs.style.adaptiveDialog,
-            title: Text(i18n.various.closeEditorWarningTitle),
-            content: Text(i18n.various.closeEditorWarningMessage),
-            actions: <AdaptiveDialogAction>[
-              AdaptiveDialogAction(
-                designMode: designMode,
-                onPressed: () => Navigator.pop(context, 'Cancel'),
-                child: Text(i18n.various.closeEditorWarningCancelBtn),
-              ),
-              AdaptiveDialogAction(
-                designMode: designMode,
-                onPressed: () {
-                  close = true;
-                  Navigator.pop(context, 'OK');
-                },
-                child: Text(i18n.various.closeEditorWarningConfirmBtn),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-
-    if (close) {
-      if (onCloseEditor == null) {
-        if (mounted) Navigator.pop(context);
-      } else {
-        onCloseEditor!.call(EditorMode.main);
-      }
-    }
-
-    _isDialogOpen = false;
+   // Navigator.pop(context);
+    // if (isPopScopeDisabled) {
+    //   Navigator.pop(context);
+    //   return;
+    // }
+    // _isDialogOpen = true;
+    //
+    // bool close = false;
+    //
+    // if (!mounted) return;
+    //
+    // if (mainEditorConfigs.widgets.closeWarningDialog != null) {
+    //   close = await mainEditorConfigs.widgets.closeWarningDialog!(this);
+    // } else {
+    //   await showAdaptiveDialog(
+    //     context: context,
+    //     builder: (BuildContext context) => Theme(
+    //       data: _theme,
+    //       child: AdaptiveDialog(
+    //         designMode: designMode,
+    //         brightness: _theme.brightness,
+    //         style: configs.dialogConfigs.style.adaptiveDialog,
+    //         title: Text(i18n.various.closeEditorWarningTitle),
+    //         content: Text(i18n.various.closeEditorWarningMessage),
+    //         actions: <AdaptiveDialogAction>[
+    //           AdaptiveDialogAction(
+    //             designMode: designMode,
+    //             onPressed: () => Navigator.pop(context, 'Cancel'),
+    //             child: Text(i18n.various.closeEditorWarningCancelBtn),
+    //           ),
+    //           AdaptiveDialogAction(
+    //             designMode: designMode,
+    //             onPressed: () {
+    //               close = true;
+    //               Navigator.pop(context, 'OK');
+    //             },
+    //             child: Text(i18n.various.closeEditorWarningConfirmBtn),
+    //           ),
+    //         ],
+    //       ),
+    //     ),
+    //   );
+    // }
+    //
+    // if (close) {
+    //   if (onCloseEditor == null) {
+    //     if (mounted) Navigator.pop(context);
+    //   } else {
+    //     onCloseEditor!.call(EditorMode.main);
+    //   }
+    // }
+    //
+    // _isDialogOpen = false;
   }
 
   /// Imports state history and performs necessary recalculations.
