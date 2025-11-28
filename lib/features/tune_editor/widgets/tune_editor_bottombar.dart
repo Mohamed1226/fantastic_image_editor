@@ -133,6 +133,8 @@ class _TuneEditorBottombarState extends State<TuneEditorBottombar> {
                     Slider(
                       min: activeOption.min,
                       max: activeOption.max,
+                      activeColor: const Color(0xffFF62D8),
+                      inactiveColor: const Color(0xffFEF8F8),
                       divisions: activeOption.divisions,
                       label: (value * activeOption.labelMultiplier)
                           .round()
